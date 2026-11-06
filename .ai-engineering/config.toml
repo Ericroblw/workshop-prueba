@@ -51,9 +51,8 @@ loop_failures = 5  # same signature failing → deny
 # of the current branch's upstream remote (or origin), read from local refs; when
 # nothing answers, or it equals the current branch, ai-eng asks.
 # worktrees_dir: where `ai-eng worktree new` creates worktrees.
-# [git]
-# base = "develop"
-# worktrees_dir = "../<repo>.worktrees"
+[git]
+base = "master"
 
 [gc]
 # Growth caps for the NNN folders (research/, audits/, security/, reports/,
