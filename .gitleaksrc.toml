@@ -1,0 +1,6 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Unity-generated Library cache is ignored and never committed"
+paths = ['''^Library/''']
