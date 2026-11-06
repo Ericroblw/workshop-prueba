@@ -1,0 +1,12 @@
+{
+  "name": "Offroad.Gameplay",
+  "rootNamespace": "OffroadRacing.Gameplay",
+  "references": [
+    "Unity.InputSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "autoReferenced": true
+}

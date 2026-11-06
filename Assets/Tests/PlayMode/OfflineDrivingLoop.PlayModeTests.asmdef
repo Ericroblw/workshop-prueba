@@ -1,0 +1,16 @@
+{
+  "name": "OfflineDrivingLoop.PlayModeTests",
+  "rootNamespace": "OffroadRacing.Tests.PlayMode",
+  "references": [
+    "Offroad.Gameplay"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "autoReferenced": true,
+  "versionDefines": [],
+  "noEngineReferences": false
+}

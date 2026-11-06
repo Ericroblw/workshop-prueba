@@ -1,0 +1,105 @@
+{
+  "feature": "Videojuego de carreras off-road",
+  "slug": "videojuego-carreras-offroad",
+  "order": ["unit", "api", "cli", "ui"],
+  "gating": "Ejecutar las capas en orden y no avanzar si la capa anterior no pasa. En este checkout no hay proyecto Unity, runner ni resultados de ejecución; los comandos futuros quedan explícitamente bloqueados.",
+  "layers": {
+    "unit": [
+      {
+        "id": "U1",
+        "case": "La máquina de estados permite menú, sala, selección, carrera y resultados en el orden esperado",
+        "file": "Tests/EditMode/RaceFlowTests.cs",
+        "checkpoint": "offline-driving-loop"
+      },
+      {
+        "id": "U2",
+        "case": "Una carrera válida termina entre 3 y 5 minutos y asigna recompensa o desbloqueo",
+        "file": "Tests/EditMode/RaceRulesTests.cs",
+        "checkpoint": "offline-driving-loop"
+      },
+      {
+        "id": "U3",
+        "case": "Los golpes reducen velocidad y muestran daño sin eliminar al jugador ni exigir reparación",
+        "file": "Tests/EditMode/VehicleDamageTests.cs",
+        "checkpoint": "offline-driving-loop"
+      },
+      {
+        "id": "U4",
+        "case": "Los bots ocupan plazas vacías y respetan la dificultad configurada",
+        "file": "Tests/EditMode/BotSlotTests.cs",
+        "checkpoint": "offline-driving-loop"
+      },
+      {
+        "id": "U5",
+        "case": "La lógica de carrera conserva su resultado al cambiar entre transporte conectado y fallback offline",
+        "file": "Tests/EditMode/RaceTransportBoundaryTests.cs",
+        "checkpoint": "network-play"
+      }
+    ],
+    "api": [
+      {
+        "id": "A1",
+        "case": "Host y cliente pueden crear y unirse a una sala Relay/Lobby",
+        "file": "Tests/PlayMode/NetworkSessionTests.cs",
+        "checkpoint": "network-play"
+      },
+      {
+        "id": "A2",
+        "case": "Una sesión no disponible o con credenciales ausentes vuelve a una carrera offline con bots",
+        "file": "Tests/PlayMode/NetworkFallbackTests.cs",
+        "checkpoint": "network-play"
+      },
+      {
+        "id": "A3",
+        "case": "Dos instancias sincronizan estado esencial de carrera y resultado",
+        "file": "Tests/PlayMode/NetworkRaceStateTests.cs",
+        "checkpoint": "network-play"
+      }
+    ],
+    "cli": [
+      {
+        "id": "C1",
+        "case": "El proyecto Unity y los paquetes resuelven en la versión LTS fijada",
+        "command": "Unity -batchmode -nographics -quit -projectPath . -executeMethod Tests.EditMode.Run -logFile -",
+        "checkpoint": "bootstrap-project",
+        "availability": "unavailable until Unity editor/project exists"
+      },
+      {
+        "id": "C2",
+        "case": "El Unity Test Runner ejecuta EditMode y PlayMode sin fallos",
+        "command": "Unity -batchmode -nographics -quit -projectPath . -runTests -testPlatform EditMode -testResults TestResults/editmode.xml -logFile -",
+        "checkpoint": "offline-driving-loop",
+        "availability": "unavailable until Unity editor/project exists"
+      },
+      {
+        "id": "C3",
+        "case": "La validación de red se ejecuta con dos instancias y servicios configurados",
+        "command": "Unity -batchmode -nographics -quit -projectPath . -runTests -testPlatform PlayMode -testResults TestResults/playmode-network.xml -logFile -",
+        "checkpoint": "network-play",
+        "availability": "unavailable until Unity editor, UGS project, credentials, and two reachable instances exist"
+      }
+    ],
+    "ui": [
+      {
+        "id": "E1",
+        "case": "Un jugador completa el flujo menú → sala → selección → carrera → resultados con teclado o mando",
+        "file": "Manual validation in Unity Editor/PC build",
+        "checkpoint": "phase1-validation",
+        "why_ui": "Solo una ejecución visual puede probar navegación, controles, cámara en tercera persona y la integración del flujo completo; no existe aún una aplicación ejecutable."
+      },
+      {
+        "id": "E2",
+        "case": "El jugador observa daño, barro, saltos, choques, recompensa y fallback offline de forma comprensible",
+        "file": "Manual validation in Unity Editor/PC build",
+        "checkpoint": "phase1-validation",
+        "why_ui": "La legibilidad audiovisual y la recuperación visible tras fallos de conexión no pueden probarse en una capa lógica ni en este checkout vacío."
+      }
+    ]
+  },
+  "not_tested": [
+    "No se ejecutaron tests ni se escribieron archivos de test: el repositorio no contiene proyecto Unity, código, assets, Unity Editor, paquetes, Test Runner ni runner configurado.",
+    "No hay endpoints HTTP ni base de datos; la capa api representa pruebas PlayMode de servicios Relay/Lobby futuras, no APIs disponibles hoy.",
+    "No se afirma ningún resultado de paso. Los comandos Unity y la validación manual quedan bloqueados hasta el bootstrap, la instalación del editor, la configuración de Unity Gaming Services y dos instancias de PC.",
+    "Rendimiento gráfico, economía/progresión amplia, mundo abierto y reparaciones complejas quedan fuera del prototipo."
+  ]
+}

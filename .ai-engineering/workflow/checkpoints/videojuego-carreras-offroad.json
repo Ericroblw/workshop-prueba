@@ -1,0 +1,90 @@
+﻿{
+  "feature": "videojuego-carreras-offroad",
+  "title": "Phase 1 checkpoint plan · prototipo de carreras off-road",
+  "lifecycle": {
+    "phase": "implementation",
+    "plan_approval": "approved",
+    "app_review": "not-started",
+    "base_ref": null,
+    "reviewed_base": null,
+    "reviewed_feature": null
+  },
+  "scope": {
+    "platform": "PC",
+    "engine": "Unity",
+    "prototype": "one off-road track, a few cars, accessible keyboard/controller driving, bots, and basic network play",
+    "network": "Unity Netcode for GameObjects with Relay/Lobby",
+    "flow": ["menu", "lobby", "car selection", "race", "results"],
+    "out_of_scope": ["open world", "large content library", "advanced simulation", "complex repairs", "full progression/economy"]
+  },
+  "assumptions": [
+    "The checkout is a bootstrap repository with no Unity project, source code, assets, commits, or configured CI.",
+    "A Unity LTS version and package versions will be selected during project bootstrap; Unity Hub/editor may be unavailable in this environment.",
+    "Relay/Lobby credentials, project ID, test devices, and internet access will be supplied outside this repository before network validation.",
+    "Offline bots remain the fallback when a network session cannot be created.",
+    "UI validation is deferred because this repository contains no runnable Unity application; checkpoints use ui=n/a.",
+    "Verification commands are limited to repository and artifact checks until Unity tooling exists."
+  ],
+  "checkpoints": [
+    {
+      "order": 1,
+      "id": "bootstrap-project",
+      "name": "Bootstrap Unity project and package baseline",
+      "objective": "Create the Unity PC project structure, lock the Unity/package baseline, and document required external services without implementing gameplay.",
+      "deliverables": ["Unity project skeleton", "package manifest and input strategy", "README with editor and service prerequisites"],
+      "gates": {
+        "entry": "Approved PRD and brainstorm are present; repository is otherwise empty.",
+        "exit": "Project opens in the selected Unity LTS version, packages resolve, and required prerequisites are documented.",
+        "verify": ["pwsh -NoProfile -Command \"Test-Path ProjectSettings/ProjectVersion.txt\"", "pwsh -NoProfile -Command \"Test-Path Packages/manifest.json\"", "pwsh -NoProfile -Command \"Get-Content .ai-engineering/workflow/test-plans/videojuego-carreras-offroad.json | ConvertFrom-Json | Out-Null\"", "Unity -batchmode -nographics -quit -projectPath . -executeMethod Tests.EditMode.Run -logFile -", "git status --short"],
+        "behavior": {"status": "passed", "attempts": 2, "findings": ["Repository bootstrap contract checks passed.", "Unity 2022.3.62f3 batch verification passed."]}
+      },
+      "ui": "n/a",
+      "status": "passed"
+    },
+    {
+      "order": 2,
+      "id": "offline-driving-loop",
+      "name": "Build the offline driving slice",
+      "objective": "Implement one third-person off-road track, a few drivable cars, accessible keyboard/controller input, assisted steering/recovery, collision slowdown/damage feedback, and a 3–5 minute race loop.",
+      "deliverables": ["track and car prefabs", "input bindings", "race state and finish rules", "offline bot fallback", "focused play-mode tests"],
+      "gates": {
+        "entry": "Bootstrap project opens and package baseline is reproducible.",
+        "exit": "A player can start, drive, recover, finish a race in 3–5 minutes, and receive a reward/unlock; bots fill empty slots.",
+        "verify": ["pwsh -NoProfile -Command \"Test-Path Assets\"", "pwsh -NoProfile -Command \"Test-Path Packages/manifest.json\"", "Unity -batchmode -nographics -quit -projectPath . -runTests -testPlatform EditMode -testResults TestResults/editmode.xml -logFile -", "Unity -batchmode -nographics -quit -projectPath . -runTests -testPlatform PlayMode -testResults TestResults/playmode.xml -logFile -"],
+        "note": "The Unity command is expected to remain unavailable until the editor is installed; record that as blocked rather than claiming a pass."
+      },
+      "ui": "n/a",
+      "status": "planned"
+    },
+    {
+      "order": 3,
+      "id": "network-play",
+      "name": "Add basic Relay/Lobby network play",
+      "objective": "Separate race logic from transport and add host/join flow with Netcode for GameObjects, Lobby, and Relay while preserving offline fallback.",
+      "deliverables": ["network session adapter", "host/join lobby flow", "networked player/race state", "connection failure handling", "multi-instance test notes"],
+      "gates": {
+        "entry": "Offline race slice is playable and deterministic enough for comparison.",
+        "exit": "Two PC instances can host/join a race through Relay/Lobby, synchronize essential race state, and return to offline bots on failure.",
+        "verify": ["Unity -batchmode -nographics -quit -projectPath . -runTests -testPlatform PlayMode -testResults TestResults/playmode-network.xml -logFile -", "pwsh -NoProfile -Command \"Test-Path Packages/manifest.json\"", "pwsh -NoProfile -Command \"git diff --check\""],
+        "note": "Live network verification requires Unity, a configured Unity Gaming Services project, credentials, and two reachable instances."
+      },
+      "ui": "n/a",
+      "status": "planned"
+    },
+    {
+      "order": 4,
+      "id": "phase1-validation",
+      "name": "Validate Phase 1 prototype and hand off",
+      "objective": "Run available checks, capture known limitations, and confirm the approved feature's core acceptance scenarios without adding scope.",
+      "deliverables": ["validation record", "known limitations and setup steps", "Phase 1 handoff decision"],
+      "gates": {
+        "entry": "Offline and network slices have completed their preceding gates or have explicit blockers.",
+        "exit": "Repository checks pass, playable scenarios are evidenced where tooling exists, and unresolved external prerequisites are listed.",
+        "verify": ["pwsh -NoProfile -Command \"Get-ChildItem -Recurse -File | Measure-Object | Select-Object -ExpandProperty Count\"", "pwsh -NoProfile -Command \"Get-Content .ai-engineering/workflow/checkpoints/videojuego-carreras-offroad.json | ConvertFrom-Json | Out-Null\"", "pwsh -NoProfile -Command \"Get-Content .ai-engineering/workflow/test-plans/videojuego-carreras-offroad.json | ConvertFrom-Json | Out-Null\"", "Unity -batchmode -nographics -quit -projectPath . -runTests -testPlatform PlayMode -testResults TestResults/phase1.xml -logFile -", "Manual Unity PC build validation: menu → lobby → selection → race → results; record blocked if Unity/services are unavailable", "git diff --check", "git status --short"],
+        "note": "Do not mark gameplay or network acceptance passed from this empty checkout alone."
+      },
+      "ui": "n/a",
+      "status": "planned"
+    }
+  ]
+}

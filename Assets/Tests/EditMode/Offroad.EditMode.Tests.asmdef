@@ -1,0 +1,23 @@
+{
+  "name": "Offroad.EditMode.Tests",
+  "rootNamespace": "OffroadRacing.Tests",
+  "references": [
+    "Offroad.Gameplay"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "versionDefines": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll"
+  ],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "noEngineReferences": false
+}

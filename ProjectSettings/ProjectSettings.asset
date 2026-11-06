@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!129 &1
+PlayerSettings:
+  serializedVersion: 26
+  productGUID: 5d6e8f4a1b2c3d4e5f60718293a4b5c6
+  AndroidProfiler: 0
+  defaultScreenOrientation: 4
+  targetDevice: 2
+  useOnDemandResources: 0
+  accelerometerFrequency: 60
+  companyName: OffroadRacing
+  productName: Offroad Racing
+  defaultCursor: {fileID: 0}
+  m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
+  m_SplashScreenOverlayOpacity: 1
+  m_SplashScreenAnimation: 1
+  m_SplashScreenLogoStyle: 1
+  m_SplashScreenDrawMode: 0
+  m_SplashScreenBackgroundAnimationZoom: 1
+  m_SplashScreenLogoAnimationZoom: 1
+  m_SplashScreenBackgroundLandscapeAspect: 1
+  m_SplashScreenBackgroundPortraitAspect: 1
+  m_SplashScreenBackgroundLandscapeUvs:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  m_SplashScreenBackgroundPortraitUvs:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  m_SplashScreenLogos: []
+  m_VirtualRealitySplashScreen: {fileID: 0}
+  m_HolographicTrackingLossScreen: {fileID: 0}
+  defaultScreenWidth: 1280
+  defaultScreenHeight: 720
+  fullscreenMode: 1
+  resizableWindow: 1
+  useOSAutorotation: 1
+  activeInputHandler: 1
+  scriptingBackend:
+    Standalone: 1
+  apiCompatibilityLevelPerPlatform:
+    Standalone: 6
+  scriptingRuntimeVersion: 1
+  metroPackageName: OffroadRacing
+  metroPackageVersion: 1.0.0.0
+  metroCertificatePath:
+  metroCertificatePassword:
+  metroCertificateSubject:
+  metroCertificateIssuer:
+  metroCertificateNotAfter: 0000000000000000
+  XboxOneProductId:
+  XboxOneTitleId:
+  XboxOneDescription:
+  XboxOnePackageName:
+  XboxOnePackageVersion: 1.0.0.0
+  XboxOneDisplayName:
+  XboxOnePublisher:
+  XboxOnePublisherDisplayName:
+  XboxOneDescription:
+  webGLInitialMemorySize: 32
+  webGLMaximumMemorySize: 2048
+  webGLMemoryGrowthMode: 2
+  webGLMemoryLinearGrowthStep: 16
+  webGLMemoryGeometricGrowthStep: 0.2
+  webGLMemoryGeometricGrowthCap: 96
+  iPhoneStrippingLevel: 0
+  iPhoneScriptCallOptimization: 0
+  forceInternetPermission: 0
+  switchMaxWorkerMultiple: 8
+  allowUnsafeCode: 0
+  useDeterministicCompilation: 1
+  additionalIl2CppArgs:
+  scriptingDefineSymbols: {}
+  platformArchitecture: {}
+  managedStrippingLevel: {}
+  incrementalIl2cppBuild: {}
+  suppressCommonWarnings: 1
