@@ -122,6 +122,12 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.services.lobbies": {
+      "version": "file:com.unity.services.lobbies",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.services.qos": {
       "version": "1.3.2",
       "depth": 1,

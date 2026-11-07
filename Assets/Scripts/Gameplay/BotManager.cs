@@ -20,6 +20,14 @@ namespace OffroadRacing.Gameplay
                     : GameObject.CreatePrimitive(PrimitiveType.Cube);
                 bot.name = "BotCar" + index;
                 bot.tag = "Bot";
+                if (bot.GetComponent<VehicleController>() == null) bot.AddComponent<VehicleController>();
+                if (bot.GetComponent<BotController>() == null) bot.AddComponent<BotController>();
+                if (bot.GetComponent<Rigidbody>() == null)
+                {
+                    var body = bot.AddComponent<Rigidbody>();
+                    body.isKinematic = true;
+                    body.useGravity = false;
+                }
             }
         }
     }

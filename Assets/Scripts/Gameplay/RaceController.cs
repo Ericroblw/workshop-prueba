@@ -9,6 +9,8 @@ namespace OffroadRacing.Gameplay
         private int completedLaps;
         public RaceState State { get; private set; }
         public bool RewardUnlocked { get; private set; }
+        public int CompletedLaps { get { return completedLaps; } }
+        public int LapCount { get { return laps; } }
 
         public void StartRace()
         {
@@ -24,6 +26,16 @@ namespace OffroadRacing.Gameplay
             completedLaps++;
             if (completedLaps >= laps)
             {
+                State = RaceState.Finished;
+                RewardUnlocked = true;
+            }
+        }
+
+        public void FinishRace()
+        {
+            if (State == RaceState.Racing)
+            {
+                completedLaps = laps;
                 State = RaceState.Finished;
                 RewardUnlocked = true;
             }

@@ -15,6 +15,8 @@ namespace OffroadRacing.Gameplay
         public float Speed { get { return speed; } }
         public bool IsEliminated { get; private set; }
         public float Damage { get { return damage; } }
+        public bool DamageFeedbackVisible { get; private set; }
+        public Vector3 Checkpoint { get; private set; }
 
         public void SetInput(Vector2 value)
         {
@@ -38,8 +40,7 @@ namespace OffroadRacing.Gameplay
             transform.position += transform.forward * speed * Time.fixedDeltaTime;
             if (transform.position.y < -2f)
             {
-                transform.SetPositionAndRotation(new Vector3(0f, 0.6f, 0f), Quaternion.identity);
-                speed = 0f;
+                Recover();
             }
         }
 
@@ -48,6 +49,24 @@ namespace OffroadRacing.Gameplay
             var impact = VehicleDamage.ResolveCollision(Mathf.Max(1f, Mathf.Abs(speed)), impactForce);
             speed *= impact.SpeedMultiplier;
             damage = Mathf.Clamp(damage + impactForce, 0f, 100f);
+            DamageFeedbackVisible = impact.DamageFeedbackVisible;
+        }
+
+        public void SetCheckpoint(Vector3 checkpoint)
+        {
+            Checkpoint = checkpoint;
+        }
+
+        public void Recover()
+        {
+            var pose = VehicleRecovery.GetRecoveryPose(transform.position, transform.rotation, Checkpoint, transform.forward);
+            transform.SetPositionAndRotation(pose.position + Vector3.up * 0.6f, pose.rotation);
+            speed = 0f;
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            ApplyCollisionDamage(collision.relativeVelocity.magnitude);
         }
     }
 }
